@@ -1,17 +1,93 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 2
-    </ion-title>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab1"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ isEditing ? 'Edit Item' : 'Add Item' }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-list>
+    <ion-item>
+      <ion-label position="stacked">Item Name *</ion-label>
+      <ion-input
+        [(ngModel)]="item.name"
+        placeholder="e.g., Rice, Notebook..."
+        clearInput="true">
+      </ion-input>
+    </ion-item>
 
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+    <ion-item>
+      <ion-label position="stacked">Category *</ion-label>
+      <ion-select [(ngModel)]="item.category" placeholder="Select category" interface="action-sheet">
+        <ion-select-option *ngFor="let cat of categories" [value]="cat.name">
+          {{ cat.name }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Quantity *</ion-label>
+      <div class="quantity-control">
+        <ion-button fill="clear" color="danger" (click)="decrementQty()" [disabled]="item.quantity <= 0">
+          <ion-icon slot="icon-only" name="remove-circle"></ion-icon>
+        </ion-button>
+        <ion-input
+          [(ngModel)]="item.quantity"
+          type="number"
+          min="0"
+          class="qty-input"
+          placeholder="0">
+        </ion-input>
+        <ion-button fill="clear" color="success" (click)="incrementQty()">
+          <ion-icon slot="icon-only" name="add-circle"></ion-icon>
+        </ion-button>
+      </div>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Low Stock Threshold</ion-label>
+      <ion-input
+        [(ngModel)]="item.lowStockThreshold"
+        type="number"
+        min="0"
+        placeholder="5">
+      </ion-input>
+      <ion-note slot="helper">Alert when quantity falls to or below this number</ion-note>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Barcode (Optional)</ion-label>
+      <ion-input
+        [(ngModel)]="item.barcode"
+        placeholder="Scan or type barcode">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Notes</ion-label>
+      <ion-textarea
+        [(ngModel)]="item.notes"
+        placeholder="Additional notes..."
+        [rows]="3"
+        autoGrow="true">
+      </ion-textarea>
+    </ion-item>
+  </ion-list>
+
+  <div class="form-actions">
+    <ion-button expand="block" (click)="saveItem()"
+                [disabled]="!item.name || !item.category"
+                class="save-btn">
+      <ion-icon name="save-outline" slot="start"></ion-icon>
+      {{ isEditing ? 'Update Item' : 'Add Item' }}
+    </ion-button>
+
+    <ion-button expand="block" color="danger" fill="outline" *ngIf="isEditing"
+                (click)="deleteItem()">
+      <ion-icon name="trash-outline" slot="start"></ion-icon>
+      Delete Item
+    </ion-button>
+  </div>
 </ion-content>

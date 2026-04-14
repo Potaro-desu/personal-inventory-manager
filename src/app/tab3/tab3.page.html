@@ -1,17 +1,41 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 3
-    </ion-title>
+  <ion-toolbar color="primary">
+    <ion-title>Categories</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="addCategory()">
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-list>
+    <ion-item-sliding *ngFor="let cat of categories">
+      <ion-item>
+        <ion-icon
+          slot="start"
+          [name]="cat.icon"
+          [style.color]="cat.color"
+          style="font-size: 28px;">
+        </ion-icon>
+        <ion-label>
+          <h2>{{ cat.name }}</h2>
+        </ion-label>
+        <div slot="end" class="color-dot" [style.background-color]="cat.color"></div>
+      </ion-item>
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="deleteCategory(cat)">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <div class="empty-state" *ngIf="categories.length === 0">
+    <ion-icon name="pricetags-outline"></ion-icon>
+    <h3>No categories</h3>
+    <p>Tap + to add your first category</p>
+  </div>
 </ion-content>

@@ -1,17 +1,100 @@
 <ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>My Inventory</ion-title>
+  </ion-toolbar>
   <ion-toolbar>
-    <ion-title>
-      Tab 1
-    </ion-title>
+    <ion-searchbar
+      [(ngModel)]="searchTerm"
+      (ionInput)="filterItems()"
+      placeholder="Search items..."
+      [debounce]="300"
+      animated="true">
+    </ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <!-- Category Filter Chips using ion-grid (Module 3 + Module 9-10) -->
+  <ion-grid>
+    <ion-row class="ion-nowrap" style="overflow-x: auto;">
+      <ion-col size="auto">
+        <ion-chip
+          [color]="selectedCategory === '' ? 'primary' : 'medium'"
+          (click)="filterByCategory('')">
+          <ion-icon name="apps"></ion-icon>
+          <ion-label>All</ion-label>
+        </ion-chip>
+      </ion-col>
+      <ion-col size="auto" *ngFor="let cat of categories">
+        <ion-chip
+          [color]="selectedCategory === cat.name ? 'primary' : 'medium'"
+          (click)="filterByCategory(cat.name)">
+          <ion-icon [name]="cat.icon"></ion-icon>
+          <ion-label>{{ cat.name }}</ion-label>
+        </ion-chip>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <!-- Low Stock Warning Banner -->
+  <ion-card color="danger" *ngIf="lowStockCount > 0" class="low-stock-banner">
+    <ion-card-content>
+      <ion-icon name="warning" style="margin-right: 8px;"></ion-icon>
+      <strong>{{ lowStockCount }} item(s) are running low!</strong>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Items Count -->
+  <ion-item lines="none" class="item-count">
+    <ion-label color="medium">
+      <small>{{ filteredItems.length }} item(s) found</small>
+    </ion-label>
+  </ion-item>
+
+  <!-- Items List with Swipe-to-Delete (Module 5 - Gestures) -->
+  <ion-list *ngIf="filteredItems.length > 0">
+    <ion-item-sliding *ngFor="let item of filteredItems">
+      <ion-item [routerLink]="['/tabs/tab2']" [queryParams]="{ id: item.id }" detail="true">
+        <ion-icon
+          slot="start"
+          [name]="getCategoryIcon(item.category)"
+          [style.color]="getCategoryColor(item.category)"
+          style="font-size: 28px;">
+        </ion-icon>
+        <ion-label>
+          <h2><strong>{{ item.name }}</strong></h2>
+          <p>{{ item.category }}</p>
+          <p *ngIf="item.notes" class="item-notes">{{ item.notes }}</p>
+        </ion-label>
+        <ion-badge
+          slot="end"
+          [color]="item.quantity <= item.lowStockThreshold ? 'danger' : 'success'">
+          {{ item.quantity }}
+        </ion-badge>
+      </ion-item>
+
+      <!-- Swipe to Delete -->
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="deleteItem(item.id)">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="filteredItems.length === 0">
+    <ion-icon name="cube-outline"></ion-icon>
+    <h3 *ngIf="items.length === 0">No items yet</h3>
+    <h3 *ngIf="items.length > 0">No matching items</h3>
+    <p *ngIf="items.length === 0">Tap the + button to add your first item!</p>
+    <p *ngIf="items.length > 0">Try changing your search or filter.</p>
+  </div>
+
+  <!-- FAB Button to Add New Item -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button routerLink="/tabs/tab2">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
