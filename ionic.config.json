@@ -1,0 +1,7 @@
+{
+  "name": "personal-inventory-manager",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
