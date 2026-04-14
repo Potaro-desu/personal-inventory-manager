@@ -1,0 +1,124 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Settings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Stats Section -->
+  <ion-list-header>
+    <ion-label>Inventory Summary</ion-label>
+  </ion-list-header>
+  <ion-grid class="stats-grid">
+    <ion-row>
+      <ion-col size="4">
+        <ion-card class="stat-card">
+          <ion-card-content class="ion-text-center">
+            <div class="stat-number">{{ totalItems }}</div>
+            <div class="stat-label">Total Items</div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="4">
+        <ion-card class="stat-card" [color]="lowStockItems > 0 ? 'danger' : ''">
+          <ion-card-content class="ion-text-center">
+            <div class="stat-number">{{ lowStockItems }}</div>
+            <div class="stat-label">Low Stock</div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="4">
+        <ion-card class="stat-card">
+          <ion-card-content class="ion-text-center">
+            <div class="stat-number">{{ totalCategories }}</div>
+            <div class="stat-label">Categories</div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Settings Section -->
+  <ion-list-header>
+    <ion-label>Preferences</ion-label>
+  </ion-list-header>
+  <ion-list>
+    <ion-item>
+      <ion-icon name="alert-circle-outline" slot="start" color="warning"></ion-icon>
+      <ion-label>
+        <h2>Default Low Stock Threshold</h2>
+        <p>Used when adding new items</p>
+      </ion-label>
+      <ion-input
+        [(ngModel)]="defaultThreshold"
+        type="number"
+        min="0"
+        slot="end"
+        style="max-width: 80px; text-align: right;">
+      </ion-input>
+    </ion-item>
+  </ion-list>
+
+  <div class="ion-padding">
+    <ion-button expand="block" (click)="saveSettings()">
+      <ion-icon name="save-outline" slot="start"></ion-icon>
+      Save Settings
+    </ion-button>
+  </div>
+
+  <!-- Notifications Section -->
+  <ion-list-header>
+    <ion-label>Notifications</ion-label>
+  </ion-list-header>
+  <ion-list>
+    <ion-item button="true" (click)="testNotification()">
+      <ion-icon name="notifications-outline" slot="start" color="primary"></ion-icon>
+      <ion-label>
+        <h2>Test Low Stock Alert</h2>
+        <p>Send a notification if items are low</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!-- Danger Zone -->
+  <ion-list-header>
+    <ion-label color="danger">Danger Zone</ion-label>
+  </ion-list-header>
+  <ion-list>
+    <ion-item button="true" (click)="clearAllData()">
+      <ion-icon name="trash-outline" slot="start" color="danger"></ion-icon>
+      <ion-label color="danger">
+        <h2>Clear All Data</h2>
+        <p>Delete all items and categories</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!-- About Section -->
+  <ion-list-header>
+    <ion-label>About</ion-label>
+  </ion-list-header>
+  <ion-list>
+    <ion-item>
+      <ion-icon name="information-circle-outline" slot="start"></ion-icon>
+      <ion-label>
+        <h2>Personal Inventory Manager</h2>
+        <p>Version 1.0.0</p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="code-slash-outline" slot="start"></ion-icon>
+      <ion-label>
+        <h2>Built with</h2>
+        <p>Ionic 8 + Angular + Capacitor 6</p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="cloud-offline-outline" slot="start"></ion-icon>
+      <ion-label>
+        <h2>Storage</h2>
+        <p>Offline-first with @capacitor/preferences</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

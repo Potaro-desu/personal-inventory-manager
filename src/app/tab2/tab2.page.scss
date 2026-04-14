@@ -1,0 +1,26 @@
+.quantity-control {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 8px 0;
+
+  .qty-input {
+    text-align: center;
+    max-width: 80px;
+    font-size: 20px;
+    font-weight: bold;
+  }
+}
+
+.form-actions {
+  padding: 16px 0;
+
+  ion-button {
+    margin-bottom: 12px;
+  }
+}
+
+.save-btn {
+  --background: var(--ion-color-primary);
+  font-weight: bold;
+}

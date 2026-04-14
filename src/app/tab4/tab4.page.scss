@@ -1,0 +1,25 @@
+.stats-grid {
+  padding: 0 8px;
+}
+
+.stat-card {
+  margin: 4px;
+  
+  ion-card-content {
+    padding: 12px 8px;
+  }
+}
+
+.stat-number {
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: var(--ion-color-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
