@@ -43,9 +43,7 @@ export class Tab4Page {
     this.lowStockItems = lowStock.length;
 
     const { value } = await Preferences.get({ key: 'categories' });
-    if (value) {
-      this.totalCategories = JSON.parse(value).length;
-    }
+    this.totalCategories = value ? JSON.parse(value).length : 0;
   }
 
   async saveSettings() {
