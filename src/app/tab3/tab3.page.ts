@@ -19,10 +19,19 @@ export class Tab3Page {
     'brush', 'camera', 'game-controller', 'fitness',
   ];
 
-  availableColors: string[] = [
-    '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FF8C94',
-    '#A8A8A8', '#DDA0DD', '#F0E68C', '#87CEEB', '#FFA07A',
-    '#98FB98', '#FFB347',
+  availableColors: { name: string; hex: string }[] = [
+    { name: 'Red', hex: '#FF6B6B' },
+    { name: 'Teal', hex: '#4ECDC4' },
+    { name: 'Blue', hex: '#45B7D1' },
+    { name: 'Sage Green', hex: '#96CEB4' },
+    { name: 'Pink', hex: '#FF8C94' },
+    { name: 'Gray', hex: '#A8A8A8' },
+    { name: 'Plum', hex: '#DDA0DD' },
+    { name: 'Yellow', hex: '#F0E68C' },
+    { name: 'Sky Blue', hex: '#87CEEB' },
+    { name: 'Salmon', hex: '#FFA07A' },
+    { name: 'Mint Green', hex: '#98FB98' },
+    { name: 'Orange', hex: '#FFB347' },
   ];
 
   constructor(
@@ -95,8 +104,8 @@ export class Tab3Page {
     const colorInputs = this.availableColors.map((color, index) => ({
       name: 'color',
       type: 'radio' as const,
-      label: color,
-      value: color,
+      label: color.name,
+      value: color.hex,
       checked: index === 0,
     }));
 
